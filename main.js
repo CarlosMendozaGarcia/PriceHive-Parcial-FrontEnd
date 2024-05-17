@@ -38,14 +38,13 @@ async function AlkostoItems(producto) {
           };
         });
       });
-
     // Estructurar los datos en un array de objetos
     const ProductsShow = phoneData.sort(function (item1, item2){
         const a= item1.price.replace(/[.'$]/g,'')
         const b= item2.price.replace(/[.'$]/g,'') 
         return a-b
     }).slice(0,3).filter(function (item){
-        return item.title.includes(producto)
+        return item.title.toLowerCase().includes(producto.toLowerCase())
     })
     console.log(ProductsShow)
     await browser.close()
@@ -90,11 +89,11 @@ async function FallabellaItems(producto) {
         const b= item2.price.replace(/[.'$]/g,'') 
         return a-b
     }).slice(0,3).filter(function (item){
-        return item.title.includes(producto)
+        return item.title.toLowerCase().includes(producto.toLowerCase())
     })
     console.log(ProductsShow)
     await browser.close()
 }
 
-AlkostoItems('Samsung Galaxy S23')
+AlkostoItems('Samsung Galaxy A54')
 

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PriceHive</title>
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="shortcut icon" href="./assets/img/logo.png">
+</head>
+
+<body>
+    <main>
+        <header>
+            <nav>
+                <div class="name">
+                    <img src="./assets/img/logo.png" alt="logo">
+                    <h1>PriceHive</h1>
+                </div>
+                <div class="busqueda">
+                    <input type="text" name="producto" placeholder="Producto que desea buscar">
+                    <button type="button" onclick="">Buscar</button>
+                </div>
+            </nav>
+        </header>
+        <section>
+            <div class="banner">
+                <div class="productos">
+                    <div class="filtro">
+                        <div class="tipos">
+                            <div class="precio">
+                                <p>Precio maximo</p>
+                                <input type="range" id="price" name="price" min="0" max="3000000">
+                            </div>
+                            <div class="mercado">
+                                <p> Mercado a seleccionar</p>
+                                <div>
+                                    <input type="checkbox" name="mercado1" id="mercado1"><label for="mercado1">MercadoLibre</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" name="mercado2" id="mercado2"><label for="mercado2">Alkosto</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" name="mercado3" id="mercado3"><label for="mercado3">Olimpica</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" name="mercado4" id="mercado4"><label for="mercado4">Exito</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" name="mercado5" id="mercado5"><label for="mercado5">Falabella</label>
+                                </div>
+                            </div>
+                        </div>
+                        <input class="submit" type="submit" value="Aplicar filtros">
+                    </div>
+                    <div class="lista">
+
+                    </div>
+                    <div class="paginación">
+
+                    </div>
+                </div>
+            </div>
+
+        </section>
+        <footer>
+            <p> Copyright <span>&copy;</span> 2024 PriceHive Co.,Ltd. All Rights Reserved. </p>
+            <p> Web designed by <span class="special">Carlos Mendoza, Augusto de Avila</span></p>
+        </footer>
+    </main>
+</body>
+
+</html>

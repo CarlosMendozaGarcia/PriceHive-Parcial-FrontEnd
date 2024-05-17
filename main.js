@@ -96,6 +96,5 @@ async function FallabellaItems(producto) {
     await browser.close()
 }
 
-/* AlkostoItems('Samsung Galaxy A54') */
-FallabellaItems('Samsung Galaxy A54')
+AlkostoItems('Samsung Galaxy S23')
 

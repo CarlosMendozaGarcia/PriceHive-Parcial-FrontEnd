@@ -1,5 +1,18 @@
-import { spec } from 'node:test/reporters'
 import { chromium } from 'playwright'
+
+
+function toHTML(Product) {
+  var html="" ;
+  const htmlProduct= Product.map( product => {
+    html += "<div class=card>";
+    html += "<img src= " + product.img + "></img>";
+    html += "<h4>" + product.title + "</h4>";
+    html += "<p>" + product.price + "</p>";
+    html += "<a href = " + product.link + "> Compra Aqui</a>";
+    html += "</div>";
+  })
+  return html;
+}
 
 async function AlkostoItems(producto) {
   const browser = await chromium.launch()
@@ -17,13 +30,17 @@ async function AlkostoItems(producto) {
   await page.waitForSelector(`.js-algolia-product-click`)
 
   // Extraer los productos
-  const phoneData = await page.$$eval('.ais-InfiniteHits-item.product__item.js-product-item.js-algolia-product-click', products => {
+  const phoneData = await page.$$eval('li.ais-InfiniteHits-item.product__item.js-product-item.js-algolia-product-click', products => {
     return products.slice(0, 5).map(product => {
       // Extraer el título
-      const titleElement = product.querySelector('.js-algolia-product-title');
+      const titleElement = product.querySelector('h3.js-algolia-product-title');
       const title = titleElement ? titleElement.innerText : '';
-      const priceElement = product.querySelector('.price');
+      const priceElement = product.querySelector('span.price');
       const price = priceElement ? priceElement.innerText : '';
+      const imgElement = product.querySelector('div.product__item__information__image.js-algolia-product-click img')
+      const img = imgElement ? imgElement.getAttribute('src') :'';
+      const linkElement = product.querySelector('a.js-view-details.js-algolia-product-click')
+      const link = linkElement ? linkElement.getAttribute('href'):'';
 
       // Extraer las especificaciones
       const keys = Array.from(product.querySelectorAll('.item--key')).map(key => key.innerText);
@@ -34,14 +51,16 @@ async function AlkostoItems(producto) {
       });
 
       return {
-        title: String(title),
+        title: title,
+        img: 'https://www.alkosto.com'+img,
         specifications: specs,
-        price: String(price)
+        price: price,
+        link: 'https://www.alkosto.com'+link
       };
     });
   });
   await browser.close()
-  
+
   // Estructurar los datos en un array de objetos
   const ProductsShow = phoneData.sort(function (item1, item2) {
     const a = item1.price.replace(/[.'$]/g, '')
@@ -50,7 +69,6 @@ async function AlkostoItems(producto) {
   }).slice(0, 3).filter(function (item) {
     const a= item.title
     const b= producto.split(' ')
-    console.log(b)
     var i= 0
     b.forEach(element => {
       if(a.toLowerCase().includes(element.toLowerCase())){
@@ -61,7 +79,8 @@ async function AlkostoItems(producto) {
       return item
     }
   })
-  console.log(ProductsShow)
+  const html = toHTML(ProductsShow)
+  return html
 }
 
 
@@ -109,4 +128,5 @@ async function FallabellaItems(producto) {
   await browser.close()
 }
 
-AlkostoItems("iphone 13")
+AlkostoItems("iphone 14")
+

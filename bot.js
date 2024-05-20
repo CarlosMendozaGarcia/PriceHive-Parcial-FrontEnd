@@ -1,4 +1,4 @@
-import { chromium } from 'playwright'
+const  { chromium } = require('playwright')
 
 function validation(Product,producto){
   return Product.sort(function (item1, item2) {
@@ -17,13 +17,16 @@ function validation(Product,producto){
 }
 
 function toHTML(Product) {
-  var html = "";
+  var html = ""
   const htmlProduct = Product.map(product => {
-    html += "<div class=card>";
+    html += "<div class=pricecard>"
+    html += "<a href="+product.link+">"
     html += "<img src= " + product.img + "></img>";
+    html += "<div class=infocard>"
     html += "<h4>" + product.title + "</h4>";
     html += "<p>" + product.price + "</p>";
-    html += "<a href = " + product.link + "> Compra Aqui</a>";
+    html += "</div>"
+    html += "</a>";
     html += "</div>";
   })
   return html;
@@ -61,19 +64,19 @@ async function AlkostoItems(producto) {
         const link = linkElement ? linkElement.href : '';
         
         // Extraer las especificaciones
-        const keys = Array.from(product.querySelectorAll('.item--key')).map(key => key.innerText);
+        /* const keys = Array.from(product.querySelectorAll('.item--key')).map(key => key.innerText);
         const values = Array.from(product.querySelectorAll('.item--value')).map(value => value.innerText);
         let specs = {};
         keys.forEach((key, index) => {
           specs[key] = values[index];
-        });
+        }); */
 
         return {
           title: title,
           img: 'https://www.alkosto.com' + img,
-          specifications: specs,
+          /* specifications: specs, */
           price: price,
-          link: 'https://www.alkosto.com' + link,
+          link: link,
           market: 'Alkosto'
         };
       });
@@ -83,13 +86,12 @@ async function AlkostoItems(producto) {
   // Estructurar los datos en un array de objetos
   const ProductsShow = validation(phoneData,producto)
 
-  console.log(ProductsShow)
+  return ProductsShow
 }
 
 
 async function FalabellaItems(producto) {
   const browser = await chromium.launch({
-    headless: false,
   })
   const page = await browser.newPage()
 
@@ -139,7 +141,7 @@ async function FalabellaItems(producto) {
   // Estructurar los datos en un array de objetos
   const ProductsShow = validation(phoneData,producto)
 
-  console.log(ProductsShow)
+  return ProductsShow
 }
 
 async function OlimpicaItems(producto) {
@@ -155,14 +157,12 @@ async function MercadoLibreItems(producto) {
 
 }
 
-FalabellaItems('Samsung Galaxy S23')
-
-/* module.exports ={
+module.exports ={
   AlkostoItems,
   FalabellaItems,
   OlimpicaItems,
   ExitoItems,
   MercadoLibreItems,
   toHTML
-} */
+}
 

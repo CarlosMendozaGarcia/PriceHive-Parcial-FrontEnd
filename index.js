@@ -2,19 +2,31 @@ const express = require('express')
 const path = require('path')
 
 const app = express()
-const port  = 3000
+const port = 3000
 
-app.use(express.static(path.join(__dirname,'assets')))
+const { AlkostoItems,
+    FalabellaItems,
+    toHTML
+} = require("./bot.js")
 
-app.get('/', (req,res) => {
-    res.sendFile(path.join(__dirname,'index.html'))
+
+app.use(express.static(path.join(__dirname, 'assets')))
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'))
 })
 
-app.get('/search', async (req,res) => {
-    const searchValue = req.query.search;
-    res.send(`<!DOCTYPE html>
+let searchValue = []
+app.get('/search', async (req, res) => {
+    try {
+        const searchValue = req.query.search;
+        var html = ""
+        var ProductsScrapp = []
+        const productosAlkosto = await AlkostoItems(searchValue)
+        //const productosFalabella = await FalabellaItems(searchValue)
+        html += toHTML(productosAlkosto)
+        res.send(`<!DOCTYPE html>
     <html lang="es">
-    
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -68,6 +80,7 @@ app.get('/search', async (req,res) => {
                             <input class="submit" type="submit" value="Aplicar filtros">
                         </div>
                         <div class="lista">
+                        ${html}
                         </div>
                     </div>
                 </div>
@@ -81,6 +94,9 @@ app.get('/search', async (req,res) => {
         <script type="module" src="./index.js"></script>
     </body>
     </html>`)
+    } catch (error) {
+        res.status(500).send({ msg: "Error ocurred while scraping", error: error.message })
+    }
 })
 
 app.listen(port, () => {

@@ -68,20 +68,21 @@ section .banner {
 
 section .banner .productos {
     width: fit-content;
+    flex-direction: column;
     margin-top:  20px;
     border-radius: 10px;
     box-shadow: 0px 0px 10px 2px #854b0f;
-    padding: 20px 0px;
+    padding: 20px 10px;
     align-self: center;
-    gap: 20px;
+    gap: 50px;
 }
 section .productos .filtro {
     display:flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 0px 20px;
-    gap:20px;
+    padding: 10px 20px;
+    gap: 30px;
 }
 section .productos .filtro .tipos {
     display: flex;
@@ -129,6 +130,39 @@ section .productos .filtro .submit {
     padding: 5px;
     box-shadow: 0px 0px 10px 2px #854b0f;
 }
+
+section .productos .lista {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+}
+
+section .productos .lista .pricecard {
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 2px #854b0f;
+    width: 80%;
+}
+
+section .productos .lista .pricecard a {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-decoration: none;
+    padding: 10px 20px;
+}
+
+section .productos .lista div a img {
+    height: 200px;
+    width: auto;
+
+}
+section .productos .lista div a img .infocard {
+    display:flex;
+    flex-direction: column;
+}
+
 footer {
     margin-top: 20px;
     background: #eeb346;

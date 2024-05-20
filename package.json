@@ -2,7 +2,6 @@
   "name": "pricehive-parcial-frontend",
   "private": true,
   "version": "0.0.0",
-  "type": "module",
   "scripts": {
     "dev": "node bot.js",
     "build": "vite build",
@@ -14,6 +13,7 @@
     "vite": "^5.2.0"
   },
   "dependencies": {
-    "dotenv": "^16.4.5"
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2"
   }
 }

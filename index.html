@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PriceHive</title>
-    <link rel="stylesheet" href="./assets/css/style.css">
-    <link rel="shortcut icon" href="./assets/img/logo.png">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="shortcut icon" href="./img/logo.png">
 </head>
 
 <body>
@@ -14,13 +14,13 @@
         <header>
             <nav>
                 <div class="name">
-                    <img src="./assets/img/logo.png" alt="logo">
+                    <img src="./img/logo.png" alt="logo">
                     <h1>PriceHive</h1>
                 </div>
-                <div class="busqueda">
-                    <input type="text" name="producto" placeholder="Producto que desea buscar">
-                    <button type="button" onclick="">Buscar</button>
-                </div>
+                <form action ="/search" method="GET" class="busqueda">
+                    <input type="search" name="search" ide="search" placeholder="Producto que desea buscar">
+                    <button type="submit" >Buscar</button>
+                </form>
             </nav>
         </header>
         <section>
@@ -54,10 +54,7 @@
                         <input class="submit" type="submit" value="Aplicar filtros">
                     </div>
                     <div class="lista">
-
-                    </div>
-                    <div class="paginación">
-
+                        <h2></h2>
                     </div>
                 </div>
             </div>
@@ -68,6 +65,6 @@
             <p> Web designed by <span class="special">Carlos Mendoza, Augusto de Avila</span></p>
         </footer>
     </main>
+    <script type="module" src="./index.js"></script>
 </body>
-
 </html>

@@ -37,9 +37,9 @@ async function FalabellaItems(producto) {
 
         return {
           title: title,
-          img: img,
           price: price,
           link: link,
+          img: img,
           market: 'Falabella'
         };
       });

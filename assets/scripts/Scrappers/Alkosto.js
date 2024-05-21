@@ -36,9 +36,9 @@ async function AlkostoItems(producto) {
   
           return {
             title: title,
-            img: 'https://www.alkosto.com' + img,
             price: price,
             link: link,
+            img: 'https://www.alkosto.com' + img,
             market: 'Alkosto'
           };
         });

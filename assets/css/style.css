@@ -63,17 +63,26 @@ header nav .busqueda input::placeholder{
 section .banner {
     position: relative;
     display: flex;
-    justify-content: center
+    justify-content: center;
+    align-items: center;
+    background-image: url('../img/Banner_bee.jpeg');
+    background-size:auto;
+    background-repeat: repeat;
+    background-position: center;
 }
 
+
 section .banner .productos {
+    background: white;
     width: fit-content;
+    display:flex;
     flex-direction: column;
     margin-top:  20px;
+    margin-bottom: 20px;
     border-radius: 10px;
     box-shadow: 0px 0px 10px 2px #854b0f;
     padding: 20px 10px;
-    align-self: center;
+    align-items: center;
     gap: 50px;
 }
 section .productos .filtro {
@@ -134,15 +143,16 @@ section .productos .filtro .submit {
 section .productos .lista {
     display: flex;
     flex-direction: column;
-    gap: 20px;
     justify-content: center;
-    align-items: center;
+    align-items:center;
+    gap: 20px;
+    padding: 0px 20px;
+    width:600px;
 }
 
 section .productos .lista .pricecard {
     border-radius: 10px;
     box-shadow: 0px 0px 10px 2px #854b0f;
-    width: 80%;
 }
 
 section .productos .lista .pricecard a {
@@ -162,9 +172,11 @@ section .productos .lista div a img .infocard {
     display:flex;
     flex-direction: column;
 }
+section .productos .lista div a img .infocard .h3{
+    flex-wrap: wrap;
+}
 
 footer {
-    margin-top: 20px;
     background: #eeb346;
     color: white;
     display: flex;

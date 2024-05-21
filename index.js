@@ -4,12 +4,13 @@ const path = require('path')
 const app = express()
 const port = 3000
 
-const { AlkostoItems,
-    FalabellaItems,
-    toHTML,
-    MercadoLibreItems,
-    ExitoItems
-} = require("./bot.js")
+const {AlkostoItems} = require('./assets/scripts/Scrappers/Alkosto')
+const {ExitoItems} = require('./assets/scripts/Scrappers/Exito')
+const {FalabellaItems} = require('./assets/scripts/Scrappers/Falabella')
+const {MercadoLibreItems} = require('./assets/scripts/Scrappers/MercadoLibre')
+const {OlimpicaItems} = require('./assets/scripts/Scrappers/Olimpica')
+
+const {toHTML} = require('./assets/scripts/functions/functions')
 
 
 app.use(express.static(path.join(__dirname, 'assets')))
@@ -22,24 +23,15 @@ app.get('/search', async (req, res) => {
     try {
         const searchValue = req.query.search;
         var html = ""
-        var ProductsScrap = []
-        const productosAlkosto = await AlkostoItems(searchValue)
-        const productosFalabella = await FalabellaItems(searchValue)
-        const productosMercadoLibre = await MercadoLibreItems(searchValue)
-        const productosExito = await ExitoItems(searchValue)
-        productosAlkosto.map( item => {
-            return ProductsScrap.push(item)
+        var ProductsScrap = await Promise.all([
+            AlkostoItems(searchValue),
+            FalabellaItems(searchValue),
+            MercadoLibreItems(searchValue),
+            ExitoItems(searchValue),
+        ])
+        ProductsScrap.map(element => {
+            html += toHTML(element)
         })
-        productosFalabella.map( item => {
-            return ProductsScrap.push(item)
-        })
-        productosExito.map( item => {
-            return ProductsScrap.push(item)
-        })
-        productosMercadoLibre.map( item => {
-            return ProductsScrap.push(item)
-        })
-        html += toHTML(ProductsScrap)
         res.send(`<!DOCTYPE html>
     <html lang="es">
     <head>

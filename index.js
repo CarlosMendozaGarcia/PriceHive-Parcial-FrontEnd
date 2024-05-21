@@ -59,7 +59,7 @@ app.get('/search', async (req, res) => {
                         <h1>PriceHive</h1>
                     </div>
                     <form action ="/search" method="GET" class="busqueda">
-                        <input type="search" name="search" ide="search" placeholder="Producto que desea buscar" value=${searchValue}>
+                        <input type="search" name="search" id="search" placeholder="Producto que desea buscar" value=${searchValue}>
                         <button type="submit" >Buscar</button>
                     </form>
                 </nav>

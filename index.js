@@ -6,7 +6,9 @@ const port = 3000
 
 const { AlkostoItems,
     FalabellaItems,
-    toHTML
+    toHTML,
+    MercadoLibreItems,
+    ExitoItems
 } = require("./bot.js")
 
 
@@ -16,15 +18,28 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'))
 })
 
-let searchValue = []
 app.get('/search', async (req, res) => {
     try {
         const searchValue = req.query.search;
         var html = ""
-        var ProductsScrapp = []
+        var ProductsScrap = []
         const productosAlkosto = await AlkostoItems(searchValue)
-        //const productosFalabella = await FalabellaItems(searchValue)
-        html += toHTML(productosAlkosto)
+        const productosFalabella = await FalabellaItems(searchValue)
+        const productosMercadoLibre = await MercadoLibreItems(searchValue)
+        const productosExito = await ExitoItems(searchValue)
+        productosAlkosto.map( item => {
+            return ProductsScrap.push(item)
+        })
+        productosFalabella.map( item => {
+            return ProductsScrap.push(item)
+        })
+        productosExito.map( item => {
+            return ProductsScrap.push(item)
+        })
+        productosMercadoLibre.map( item => {
+            return ProductsScrap.push(item)
+        })
+        html += toHTML(ProductsScrap)
         res.send(`<!DOCTYPE html>
     <html lang="es">
     <head>

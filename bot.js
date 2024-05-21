@@ -7,12 +7,17 @@ function validation(Product,producto){
     return a - b
   }).slice(0, 3).filter(function (item) {
     const a = item.title
-    const [modelo, ...elementos] = producto.split(' ').reverse()
+    const b= producto.split(' ')
     var i = 0
-    if(a.toLowerCase().includes(modelo.toLowerCase()))
-      {
-        return item
-      }
+    b.forEach(element => {
+      if(a.toLowerCase().includes(element.toLowerCase()))
+        {
+          i++
+        }
+    });
+    if(i===b.length){
+      return item
+    }    
   })
 }
 
@@ -103,21 +108,20 @@ async function FalabellaItems(producto) {
   }, producto)
   await page.keyboard.type(' ')
   await page.keyboard.press('Enter')
-  await page.waitForSelector('div.jsx-1484439449.search-results-4-grid.grid-pod')
+  await page.waitForSelector('div.jsx-1484439449')
 
-  const phoneData = await page.$$eval('div.jsx-1484439449.search-results-4-grid.grid-pod', products => {
+  const phoneData = await page.$$eval('div.jsx-1484439449', products => {
     return products.slice(0, 5).map(product => {
       // Extraer el título
       const titleElement = product.querySelector(
-        '.jsx-2481219049.copy2.primary.jsx-3451706699.normal.line-clamp.line-clamp-3.pod-subTitle.subTitle-rebrand');
+        'b.pod-subTitle.subTitle-rebrand');
       const title = titleElement ? titleElement.innerText : '';
       const priceElement = product.querySelector(
-        '.copy10.primary.medium.jsx-3451706699.normal.line-height-22');
+        'span.copy10.primary.medium.jsx-3451706699.normal.line-height-22');
       const price = priceElement ? priceElement.innerText : '';
       const imgElement = product.querySelector('picture.jsx-1996933093 img')
       const img = imgElement ? imgElement.getAttribute('src') : '';
       const linkElement = product.querySelector("a")
-      console.log(linkElement)
       const link = linkElement ? linkElement.href : '';
 
       /* await page.click(product)
@@ -138,6 +142,7 @@ async function FalabellaItems(producto) {
     });
   });
   await browser.close()
+  
   // Estructurar los datos en un array de objetos
   const ProductsShow = validation(phoneData,producto)
 
@@ -145,16 +150,109 @@ async function FalabellaItems(producto) {
 }
 
 async function OlimpicaItems(producto) {
-
-
+  
 }
 
 async function ExitoItems(producto) {
+  const browser = await chromium.launch()
+  const page = await browser.newPage() 
 
+  await page.goto('https://www.exito.com')
+  await page.waitForLoadState('domcontentloaded')
+  await page.click(".search-input_fs-search-input__o0Mud")
+  await page.$eval('[data-testid="store-input"]', (element, product) => {
+    element.value = product
+  }, producto)
+  await page.keyboard.type(' ')
+  await page.keyboard.press('Enter')
+  await page.waitForTimeout(2000)
+  await page.waitForSelector('.product-card-no-alimentos_fsProductCardNoAlimentos__zw867')
+
+  // Extraer los productos
+  const phoneData = await page.$$eval('.product-card-no-alimentos_fsProductCardNoAlimentos__zw867', products => {
+    return products.slice(0, 5).map(product => {
+      // Extraer el título
+      const titleElement = product.querySelector('a[data-testid="product-link"][title]');
+      const title = titleElement ? titleElement.innerText : '';
+      const priceElement = product.querySelector('.ProductPrice_container__JKbri');
+      const price = priceElement ? priceElement.innerText : '';
+      const imgElement = product.querySelector('.imagen_plp')
+      const img = imgElement ? imgElement.getAttribute('src') : '';
+      const linkElement = product.querySelector('a[data-testid="product-link"][title]')
+      const link = linkElement ? linkElement.href : '';
+
+      // Extraer las especificaciones
+      /* const keys = Array.from(product.querySelectorAll('.item--key')).map(key => key.innerText);
+      const values = Array.from(product.querySelectorAll('.item--value')).map(value => value.innerText);
+      let specs = {};
+      keys.forEach((key, index) => {
+        specs[key] = values[index];
+      }); */
+
+      return {
+        title: String(title),
+        //specifications: specs,
+        price: String(price),
+        link: link,
+        img: img,
+        market: 'Exito'
+      };
+    });
+  });
+  await browser.close()
+  const ProductsShow= validation(phoneData,producto)
+  return ProductsShow
 }
 
 async function MercadoLibreItems(producto) {
+  const browser = await chromium.launch()
+  const page = await browser.newPage() 
 
+  await page.goto('https://www.mercadolibre.com.co')
+  await page.waitForLoadState('domcontentloaded')
+  await page.click(".nav-search-input")
+  await page.$eval('#cb1-edit', (element, product) => {
+    element.value = product
+  }, producto)
+  await page.keyboard.type(' ')
+  await page.keyboard.press('Enter')
+  await page.waitForTimeout(2000)
+  await page.waitForSelector('.ui-search-layout__stack')
+
+  // Extraer los productos
+  const phoneData = await page.$$eval('.andes-card.ui-search-result.ui-search-result--core.andes-card--flat.andes-card--padding-16', products => {
+    return products.slice(0, 5).map(product => {
+      // Extraer el título
+      const titleElement = product.querySelector('.ui-search-item__group.ui-search-item__group--title');
+      const title = titleElement ? titleElement.innerText : '';
+      const priceElement = product.querySelector('.andes-money-amount__fraction');
+      const price = priceElement ? priceElement.innerText : '';
+      const imgElement = product.querySelector('.ui-search-result-image__element')
+      const img = imgElement ? imgElement.getAttribute('src') : '';
+      const linkElement = product.querySelector('a.ui-search-item__group__element.ui-search-link__title-card.ui-search-link')
+      const link = linkElement ? linkElement.href : '';
+
+      // Extraer las especificaciones
+      /* const keys = Array.from(product.querySelectorAll('.item--key')).map(key => key.innerText);
+      const values = Array.from(product.querySelectorAll('.item--value')).map(value => value.innerText);
+      let specs = {};
+      keys.forEach((key, index) => {
+        specs[key] = values[index];
+      }); */
+
+      return {
+        title: String(title),
+        //specifications: specs,
+        price: String(price),
+        link: link,
+        img: img,
+        market: 'Mercado Libre'
+      };
+    });
+  });
+  await browser.close()
+  const ProductsShow= validation(phoneData,producto)
+  return ProductsShow
 }
 
 module.exports ={
@@ -163,6 +261,7 @@ module.exports ={
   OlimpicaItems,
   ExitoItems,
   MercadoLibreItems,
+  validation,
   toHTML
 }
 

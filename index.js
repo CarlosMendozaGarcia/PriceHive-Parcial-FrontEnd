@@ -28,6 +28,7 @@ app.get('/search', async (req, res) => {
             FalabellaItems(searchValue),
             MercadoLibreItems(searchValue),
             ExitoItems(searchValue),
+            OlimpicaItems(searchValue)
         ])
         ProductsScrap.map(element => {
             html += toHTML(element)

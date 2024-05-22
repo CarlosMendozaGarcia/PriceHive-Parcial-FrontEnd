@@ -8,8 +8,6 @@ function validation(Product,producto){
   }).slice(0, 3).filter(function (item) {
     const a = item.title
     const b= producto.split(' ')
-    console.log(a)
-    console.log(b)
     var i = 0
     b.forEach(element => {
       if(a.toLowerCase().includes(element.toLowerCase()))
@@ -17,8 +15,7 @@ function validation(Product,producto){
           i++
         }
     });
-    console.log(i)
-    if(i===b.length){
+    if(i >= b.length-1){
       return item
     }    
   })

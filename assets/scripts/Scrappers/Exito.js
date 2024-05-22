@@ -17,29 +17,32 @@ async function ExitoItems(producto) {
     await page.keyboard.press('Enter')
     await page.waitForTimeout(2000)
     await page.waitForSelector('.product-card-no-alimentos_fsProductCardNoAlimentos__zw867')
-  
-    // Extraer los productos
-    const phoneData = await page.$$eval('.product-card-no-alimentos_fsProductCardNoAlimentos__zw867', products => {
-      return products.slice(0, 5).map(product => {
-        // Extraer el título
-        const titleElement = product.querySelector('a[data-testid="product-link"][title]');
-        const title = titleElement ? titleElement.innerText : '';
-        const priceElement = product.querySelector('.ProductPrice_container__JKbri');
-        const price = priceElement ? priceElement.innerText : '';
-        const imgElement = product.querySelector('.imagen_plp')
-        const img = imgElement ? imgElement.getAttribute('src') : '';
-        const linkElement = product.querySelector('a[data-testid="product-link"][title]')
-        const link = linkElement ? linkElement.href : '';
-        return {
-          title: String(title),
-          //specifications: specs,
-          price: String(price),
-          link: link,
-          img: img,
-          market: 'Exito'
-        };
-      });
-    });
+
+    const productElements = await page.$$('.product-card-no-alimentos_fsProductCardNoAlimentos__zw867')
+    
+    const phoneData= await Promise.all(productElements.slice(0,5).map(async (product) => {
+
+      const titleElement = await product.$('a[data-testid="product-link"][title]');
+      const title = titleElement ? await titleElement.innerText() : '';
+
+      const priceElement = await product.$('.ProductPrice_container__JKbri');
+      const price = priceElement ? await priceElement.innerText() : '';
+
+      const imgElement = await product.$('.imagen_plp');
+      const img = imgElement ? await imgElement.getAttribute('src') : '';
+
+      const linkElement = await product.$('a[data-testid="product-link"][title]');
+      const link = linkElement ? await linkElement.getAttribute('href') : '';
+
+      return {
+        title: title,
+        price: price,
+        link: 'https://www.exito.com'+link,
+        img: img,
+        market: 'Exito'
+      };
+    }))
+
     await browser.close()
     console.log(phoneData)
     const ProductsShow= validation(phoneData,producto)

@@ -16,36 +16,37 @@ async function FalabellaItems(producto) {
     await page.keyboard.type(' ')
     await page.keyboard.press('Enter')
     await page.waitForTimeout(2000)
+
     await page.waitForSelector('div.jsx-1484439449')
-  
-    const phoneData = await page.$$eval('div.jsx-1484439449', products => {
-      return products.slice(0, 5).map( product => {
-        // Extraer el título
-        const titleElement = product.querySelector(
-          'b.pod-subTitle.subTitle-rebrand');
-        const title = titleElement ? titleElement.innerText : '';
 
-        const priceElement = product.querySelector(
-          'span.copy10.primary.medium.jsx-3451706699.normal.line-height-22');
-        const price = priceElement ? priceElement.innerText : '';
+    const productsElements = await page.$$('div.jsx-1484439449')
+    
+    const phoneData = await Promise.all(productsElements.slice(0,5).map( async (product) =>{
 
-        const imgElement = product.querySelector('picture.jsx-1996933093 img')
-        const img = imgElement ? imgElement.getAttribute('src') : '';
+      const titleElement = await product.$('b.pod-subTitle.subTitle-rebrand');
+      const title = titleElement ? await titleElement.innerText() : '';
 
-        const linkElement =  product.querySelector("a.pod-link");
-        const link = linkElement ? linkElement.getAttribute("href"): '';
+      const priceElement = await product.$(
+        'span.copy10.primary.medium.jsx-3451706699.normal.line-height-22'
+      );
+      const price = priceElement ? await priceElement.innerText() : '';
 
-        return {
-          title: title,
-          price: price,
-          link: link,
-          img: img,
-          market: 'Falabella'
-        };
-      });
-    });
+      const imgElement = await product.$('picture.jsx-1996933093 img');
+      const img = imgElement ? await imgElement.getAttribute('src') : '';
+
+      const linkElement = await product.$('a.pod-link');
+      const link = linkElement ? await linkElement.getAttribute('href') : '';
+
+      return {
+        title: title,
+        price: price,
+        link: link,
+        img: img,
+        market: 'Falabella'
+      };
+    }))
+    
     await browser.close()
-    console.log(phoneData)
     // Estructurar los datos en un array de objetos
     const ProductsShow = validation(phoneData,producto)
   

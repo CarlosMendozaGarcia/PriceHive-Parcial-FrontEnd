@@ -16,31 +16,33 @@ async function MercadoLibreItems(producto) {
     await page.keyboard.press('Enter')
     await page.waitForTimeout(2000)
     await page.waitForSelector('.ui-search-layout__stack')
-  
-    // Extraer los productos
-    const phoneData = await page.$$eval('.andes-card.ui-search-result.ui-search-result--core.andes-card--flat.andes-card--padding-16', products => {
-      return products.slice(0, 5).map(product => {
-        // Extraer el título
-        const titleElement = product.querySelector('.ui-search-item__group.ui-search-item__group--title');
-        const title = titleElement ? titleElement.innerText : '';
-        const priceElement = product.querySelector('.andes-money-amount__fraction');
-        const price = priceElement ? priceElement.innerText : '';
-        const imgElement = product.querySelector('.ui-search-result-image__element')
-        const img = imgElement ? imgElement.getAttribute('src') : '';
-        const linkElement = product.querySelector('a.ui-search-item__group__element.ui-search-link__title-card.ui-search-link')
-        const link = linkElement ? linkElement.href : '';
-  
-        return {
-          title: String(title),
-          price: String(price),
-          link: link,
-          img: img,
-          market: 'Mercado Libre'
-        };
-      });
-    });
+
+    const productElements = await page.$$('.andes-card.ui-search-result.ui-search-result--core.andes-card--flat.andes-card--padding-16')
+
+    const phoneData = await Promise.all(productElements.slice(0,5).map(async (product) => {
+      
+      const titleElement = await product.$('.ui-search-item__group.ui-search-item__group--title');
+      const title = titleElement ? await titleElement.innerText() : '';
+
+      const priceElement = await product.$('.andes-money-amount__fraction');
+      const price = priceElement ? await priceElement.innerText() : '';
+
+      const imgElement = await product.$('.ui-search-result-image__element');
+      const img = imgElement ? await imgElement.getAttribute('src') : '';
+
+      const linkElement = await product.$('a.ui-search-item__group__element.ui-search-link__title-card.ui-search-link');
+      const link = linkElement ? await linkElement.getAttribute('href') : '';
+
+      return {
+        title: title,
+        price: price,
+        link: link,
+        img: img,
+        market: 'MercadoLibre'
+      };
+    })) 
+
     await browser.close()
-    console.log(phoneData)
     const ProductsShow= validation(phoneData,producto)
     return ProductsShow
   }

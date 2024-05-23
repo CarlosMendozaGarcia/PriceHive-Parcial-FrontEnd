@@ -1,5 +1,5 @@
 # PriceHive-Parcial-FrontEnd
-Parcial 2 de Frontend
+## Enunciado
 
 Realizar una pagina que permita obtener un producto especifico  en paginas comerciales enfocadas en tecnologia (mercado libre, alkosto, exito, falabella, olimpica) y mostrarlas.
 
@@ -13,3 +13,9 @@ playwright
 express
 dotenv
 nodemon
+
+## npm run dev:
+Utilizar el comando `npm run dev` para correr el programa  que se encontrara en el url `http://localhost:3000`
+
+## errores:
+al momento de ejecutar pueden ocurrir multiples errores relacionados con timeOut de playwrgiht (no carga los elementos de manera rapida) en caso de ocurrir, simplemenete refrescar la pagina

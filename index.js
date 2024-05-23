@@ -113,6 +113,7 @@ app.get('/search', async (req, res) => {
                                 <input type="hidden" name="search" value="${searchValue}">
                                 <div class="tipos">
                                     <div class="precio">
+                                        <p>precio (menor a mayor)</p>
                                         <input type="checkbox" id="price" name="price" ${sortByPrice ? 'checked' : ''} > <label for="price">Precio</label>
                                     </div>
                                     <div class="mercado">

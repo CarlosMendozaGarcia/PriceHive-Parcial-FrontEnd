@@ -7,7 +7,7 @@ function validation(Product,producto){
     return a - b
   }).slice(0, 3).filter(function (item) {
     const a = item.title
-    const b= producto.split(' ')
+    const b= String(producto).split(' ')
     var i = 0
     b.forEach(element => {
       if(a.toLowerCase().includes(element.toLowerCase()))

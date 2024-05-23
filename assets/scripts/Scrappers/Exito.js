@@ -19,7 +19,6 @@ async function ExitoItems(producto) {
     await page.waitForSelector('.product-card-no-alimentos_fsProductCardNoAlimentos__zw867')
 
     const productElements = await page.$$('.product-card-no-alimentos_fsProductCardNoAlimentos__zw867')
-    
     const phoneData= await Promise.all(productElements.slice(0,5).map(async (product) => {
 
       const titleElement = await product.$('a[data-testid="product-link"][title]');
@@ -44,7 +43,6 @@ async function ExitoItems(producto) {
     }))
 
     await browser.close()
-    console.log(phoneData)
     const ProductsShow= validation(phoneData,producto)
     return ProductsShow
   }

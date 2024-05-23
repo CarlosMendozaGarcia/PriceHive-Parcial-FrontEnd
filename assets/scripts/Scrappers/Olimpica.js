@@ -3,9 +3,7 @@ const { validation } = require('../functions/functions')
 const { chromium } = require('playwright')
 
 async function OlimpicaItems(producto) {
-  const browser = await chromium.launch({
-    headless: false
-  })
+  const browser = await chromium.launch()
   const page = await browser.newPage()
 
   await page.goto('https://www.olimpica.com')
@@ -44,7 +42,6 @@ async function OlimpicaItems(producto) {
   }))
 
   await browser.close()
-  console.log(phoneData)
   const ProductsShow = validation(phoneData, producto)
   return ProductsShow
 }
